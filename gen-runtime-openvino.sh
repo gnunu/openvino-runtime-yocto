@@ -66,7 +66,10 @@ echo OK
 
 # opencl
 echo -n install opencl libs ...
-echo Please add opencl libs to ${OPENCL}
+echo Please prepare proper opencl, here using intel-opencl-r5.0-63503.x86_64.rpm as an example
+rpm2cpio rpm/intel-opencl-r5.0-63503.x86_64.rpm | cpio -id ./opt/intel/opencl/*
+mv ./opt/intel/opencl/* ${OPENCL}
+
 echo OK
 
 # config files
