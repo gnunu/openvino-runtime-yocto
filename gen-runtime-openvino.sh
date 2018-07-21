@@ -60,12 +60,9 @@ cd ..
 echo OK
 
 # opencl
-#echo -n install opencl libs ...
-#echo Please prepare proper opencl, here using intel-opencl-r5.0-63503.x86_64.rpm as an example
-#rpm2cpio rpm/intel-opencl-r5.0-63503.x86_64.rpm | cpio -id ./opt/intel/opencl/*
-#mv ./opt/intel/opencl/* ${OPENCL}
-
-#echo OK
+echo -n install opencl libs (Please prepare proper opencl, here use a built-in-house version) ...
+cp ./opencl/* ${OPENCL}
+echo OK
 
 # config files
 echo -n install configuration files ...
@@ -74,11 +71,11 @@ echo "/usr/lib/openvino/external/mkltiny_lnx/lib" >> ${OPENVINO_CONF}
 echo "/usr/lib/openvino/external/cldnn/lib" >> ${OPENVINO_CONF}
 echo "/usr/lib/openvino/external/gna/lib" >> ${OPENVINO_CONF}
 echo "/usr/lib/opencv" >> ${OPENVINO_CONF}
-#echo "/usr/lib/opencl" >> ${OPENVINO_CONF}
+echo "/usr/lib/opencl" >> ${OPENVINO_CONF}
 echo "/usr/lib/openvx" >> ${OPENVINO_CONF}
 echo "include ld.so.conf.d/openvino.conf" > ${SYSCONF}/ld.so.conf
 
-#echo "/usr/lib/opencl/libigdrcl.so" > ${OPENCLCONFD}/intel.icd
+echo "/usr/lib/opencl/libigdrcl.so" > ${OPENCLCONFD}/intel.icd
 echo OK
 
 # misc dependency
