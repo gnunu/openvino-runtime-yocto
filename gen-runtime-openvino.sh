@@ -88,6 +88,11 @@ echo "/usr/lib/altera/aocl-pro-rte/host/linux64/lib" >> ${OPENVINO_CONF}
 echo "/usr/lib/opencl/libigdrcl.so" > ${OPENCLCONFD}/intel.icd
 echo OK
 
+# misc dependency
+echo -n copy misc dependency files ...
+cp -a depend/libcpu_extension.so depend/libformat_reader.so ${USRLIB}
+echo OK
+
 # generate tarball for yocto
 echo -n packaing ...
 cd rootfs
