@@ -62,6 +62,8 @@ echo OK
 echo -n install FPGA necessities ...
 rpm2cpio rpm/intel-cv-sdk-full-l-opencl-rte-300-2018.0-300.noarch.rpm | cpio -id
 mv ./aoclrte.run ${USRBIN}
+rpm2cpio rpm/aocl-pro-rte-17.1.2-304.x86_64.rpm | cpio -id
+mv ./opt/altera ${USRLIB}
 echo OK
 
 # opencl
@@ -81,6 +83,7 @@ echo "/usr/lib/openvino/external/gna/lib" >> ${OPENVINO_CONF}
 echo "/usr/lib/opencv" >> ${OPENVINO_CONF}
 echo "/usr/lib/opencl" >> ${OPENVINO_CONF}
 echo "/usr/lib/openvx" >> ${OPENVINO_CONF}
+echo "/usr/lib/altera/aocl-pro-rte/host/linux64/lib" >> ${OPENVINO_CONF}
 
 echo "/usr/lib/opencl/libigdrcl.so" > ${OPENCLCONFD}/intel.icd
 echo OK
