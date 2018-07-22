@@ -5,13 +5,14 @@
 # export BN=intel-cv-sdk-full-l-ipu-firmware-yocto-300-2018.0-300.noarch
 
 # extract rpm files
-echo -n extract tpm files ...
-# tar zxf l_openvino_toolkit_fpga_p_2018.2.300.tgz l_openvino_toolkit_fpga_p_2018.2.300/rpm --strip-components 1
-echo OK
+#echo -n extract rpm files ...
+#tar zxf l_openvino_toolkit_fpga_p_2018.2.300.tgz l_openvino_toolkit_fpga_p_2018.2.300/rpm --strip-components 1
+#echo OK
 
 # define rootfs structure
 export USRBIN=rootfs/usr/bin
 export USRLIB=rootfs/usr/lib
+export LIB64=rootfs/lib64
 export SYSCONF=rootfs/etc
 export UDEVRULESD=${SYSCONF}/udev/rules.d
 export LDCONFD=${SYSCONF}/ld.so.conf.d
@@ -19,6 +20,7 @@ export OPENVINO_CONF=${SYSCONF}/ld.so.conf.d/openvino.conf
 export OPENCLCONFD=${SYSCONF}/OpenCL/vendors
 export OPENVINO_LIB=rootfs/usr/lib/openvino/lib
 export OPENVINO_EXT=rootfs/usr/lib/openvino/external
+export OPENVINO_LIC=rootfs/usr/lib/openvino/licensing
 export OPENCV=rootfs/usr/lib/opencv
 export OPENCL=rootfs/usr/lib/opencl
 export OPENVX=rootfs/usr/lib/openvx
@@ -26,8 +28,11 @@ export OPENVINO_RUNTIME_TGZ=openvino-runtime.tgz
 
 # set up rootfs structure
 echo -n set up rootfs structure ...
-mkdir -p ${OPENVINO_LIB} ${OPENVINO_EXT} ${OPENCV} ${OPENCL} ${OPENVX} ${USRBIN} ${SYSCONF} ${UDEVRULESD} ${LDCONFD} ${OPENCLCONFD}
+mkdir -p ${OPENVINO_LIB} ${OPENVINO_EXT} ${OPENVINO_LIC} ${OPENCV} ${OPENCL} ${OPENVX} ${USRBIN} ${SYSCONF} ${UDEVRULESD} ${LDCONFD} ${OPENCLCONFD} ${LIB64}
 echo OK
+
+# license
+cp -a ./licensing/* ${OPENVINO_LIC}
 
 # openvino IE
 echo -n install openvino IE libs ...
@@ -84,6 +89,7 @@ echo "/usr/lib/opencv" >> ${OPENVINO_CONF}
 echo "/usr/lib/opencl" >> ${OPENVINO_CONF}
 echo "/usr/lib/openvx" >> ${OPENVINO_CONF}
 echo "/usr/lib/altera/aocl-pro-rte/host/linux64/lib" >> ${OPENVINO_CONF}
+#echo "include ld.so.conf.d/openvino.conf" > ${SYSCONF}/ld.so.conf
 
 echo "/usr/lib/opencl/libigdrcl.so" > ${OPENCLCONFD}/intel.icd
 echo OK
@@ -93,11 +99,15 @@ echo -n copy misc dependency files ...
 cp -a depend/libcpu_extension.so depend/libformat_reader.so ${USRLIB}
 echo OK
 
+# add missing lib64/ld-linux-x86-64.so.2
+#echo -n add missing lib64/ld-linux-x86-64.so.2 ...
+#ln -s /lib/ld-linux-x86-64.so.2 ${LIB64}/ld-linux-x86-64.so.2
+#echo OK
+
 # generate tarball for yocto
 echo -n packaing ...
 cd rootfs
 tar zcf ${OPENVINO_RUNTIME_TGZ} *
 echo OK
-
-echo The generated file is ${OPENVINO_RUNTIME_TGZ}
+echo The generated file is "${OPENVINO_RUNTIME_TGZ}"
 echo finished
