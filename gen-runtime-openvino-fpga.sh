@@ -73,10 +73,10 @@ echo OK
 
 # opencl
 echo -n install opencl libs ...
-echo Please prepare proper opencl, here using intel-opencl-r5.0-63503.x86_64.rpm as an example
-rpm2cpio rpm/intel-opencl-r5.0-63503.x86_64.rpm | cpio -id ./opt/intel/opencl/*
+rpm2cpio rpm/intel-cv-sdk-full-gfx-install-300-2018.0-300.noarch.rpm | cpio -id ./opt/intel/computer_vision_sdk_fpga_2018.2.300/install_dependencies/intel-opencl_2018ww15-010713_amd64.deb
+ar -x ./opt/intel/computer_vision_sdk_fpga_2018.2.300/install_dependencies/intel-opencl_2018ww15-010713_amd64.deb
+tar xf data.tar.xz
 mv ./opt/intel/opencl/* ${OPENCL}
-
 echo OK
 
 # config files
@@ -96,7 +96,8 @@ echo OK
 
 # misc dependency
 echo -n copy misc dependency files ...
-cp -a depend/libcpu_extension.so depend/libformat_reader.so ${USRLIB}
+cp -a depend/libformat_reader.so ${USRLIB}
+cp -a depend/libOpenCL* ${OPENCL}
 echo OK
 
 # add missing lib64/ld-linux-x86-64.so.2
