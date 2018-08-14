@@ -21,6 +21,7 @@ export OPENCLCONFD=${SYSCONF}/OpenCL/vendors
 export OPENVINO_LIB=rootfs/usr/lib/openvino/lib
 export OPENVINO_EXT=rootfs/usr/lib/openvino/external
 export OPENVINO_LIC=rootfs/usr/lib/openvino/licensing
+export OPENVINO_PYTHON=rootfs/usr/lib/openvino/python
 export OPENCV=rootfs/usr/lib/opencv
 export OPENCL=rootfs/usr/lib/opencl
 export OPENVX=rootfs/usr/lib/openvx
@@ -28,7 +29,7 @@ export OPENVINO_RUNTIME_TGZ=openvino-runtime.tgz
 
 # set up rootfs structure
 echo -n set up rootfs structure ...
-mkdir -p ${OPENVINO_LIB} ${OPENVINO_EXT} ${OPENVINO_LIC} ${OPENCV} ${OPENCL} ${OPENVX} ${USRBIN} ${SYSCONF} ${UDEVRULESD} ${LDCONFD} ${OPENCLCONFD} ${LIB64}
+mkdir -p ${OPENVINO_LIB} ${OPENVINO_EXT} ${OPENVINO_LIC} ${OPENVINO_PYTHON} ${OPENCV} ${OPENCL} ${OPENVX} ${USRBIN} ${SYSCONF} ${UDEVRULESD} ${LDCONFD} ${OPENCLCONFD} ${LIB64}
 echo OK
 
 # license
@@ -36,10 +37,11 @@ cp -a ./licensing/* ${OPENVINO_LIC}
 
 # openvino IE
 echo -n install openvino IE libs ...
-rpm2cpio rpm/intel-cv-sdk-full-l-inference-engine-300-2018.0-300.noarch.rpm | cpio -id ./opt/intel/computer_vision_sdk_fpga_2018.2.300/deployment_tools/inference_engine/lib/ubuntu_16.04/intel64/* ./opt/intel/computer_vision_sdk_fpga_2018.2.300/deployment_tools/inference_engine/external/*
+rpm2cpio rpm/intel-cv-sdk-full-l-inference-engine-300-2018.0-300.noarch.rpm | cpio -id ./opt/intel/computer_vision_sdk_fpga_2018.2.300/deployment_tools/inference_engine/lib/ubuntu_16.04/intel64/* ./opt/intel/computer_vision_sdk_fpga_2018.2.300/deployment_tools/inference_engine/external/* ./opt/intel/computer_vision_sdk_fpga_2018.2.300/python/*
 mv ./opt/intel/computer_vision_sdk_fpga_2018.2.300/deployment_tools/inference_engine/lib/ubuntu_16.04/intel64/* ${OPENVINO_LIB}
 mv ./opt/intel/computer_vision_sdk_fpga_2018.2.300/deployment_tools/inference_engine/external/97-usbboot.rules ${UDEVRULESD}
 mv ./opt/intel/computer_vision_sdk_fpga_2018.2.300/deployment_tools/inference_engine/external/* ${OPENVINO_EXT}
+mv ./opt/intel/computer_vision_sdk_fpga_2018.2.300/python/* ${OPENVINO_PYTHON}
 echo OK
 
 # opencv
